@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>home_user</title>
+    <title>user</title>
 </head>
 <body>
 
@@ -12,5 +12,10 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout">
 </form>
+
+<input type="text" id="messageText">
+<button type="button" id="btnSend" onclick="sendMessage()">send</button>
+
+<script th:src="@{/js/chat.js}"></script>
 </body>
 </html>

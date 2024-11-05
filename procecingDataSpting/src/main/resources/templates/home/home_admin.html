@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>home_Admin</title>
+    <title>admin</title>
 </head>
 <body>
 
@@ -13,5 +13,15 @@
     <input type="submit" value="Logout">
 </form>
 
+
+<form id="uploadForm">
+    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls">
+    <button type="button" id="btnProcess" onclick="uploadExcel()">Procesar Excel</button>
+</form>
+
+<div id="results">
+</div>
+
+<script th:src="@{/js/appLoadFile.js}"></script>
 </body>
 </html>

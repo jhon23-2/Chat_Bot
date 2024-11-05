@@ -1,15 +1,13 @@
 package com.procecingData.procecingDataSpting.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "Questions")
 public class QuestionEntity {
@@ -23,7 +21,7 @@ public class QuestionEntity {
     @Column(name = "date_time_question" , columnDefinition = "VARCHAR(255)")
     private String dateTimeQuestion;
 
-    @OneToOne(targetEntity = ResponseEntity.class)
+    @OneToOne(targetEntity = ResponseEntity.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "response_id" , referencedColumnName = "id")
     private ResponseEntity responseEntity;
 }
