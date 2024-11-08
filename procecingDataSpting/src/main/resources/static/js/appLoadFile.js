@@ -4,18 +4,26 @@ function uploadExcel(){
       const file = fileInput.files[0];
 
       if (!file) {
-            alert('Por favor selecciona un archivo Excel');
-            return;
+          swal({
+                title: "with success!",
+                text: "You must select a file",
+                icon: "warning",
+                button: "Try again",
+          });
+
+        return;
       }
 
       const formData = new FormData();
       formData.append('file', file);
-      resultsDiv.innerHTML = 'Procesando archivo...';
 
+      resultsDiv.setAttribute("class","spinner-border text-primary");
+      resultsDiv.innerHTML = `
+        <span class="visually-hidden">Loading...</span>
+      `;
 
     fetch('/application/read', {
         method: 'POST',
-        //credentials: 'same-origin',
         body: formData
     })
     .then(response => {
@@ -26,11 +34,32 @@ function uploadExcel(){
     })
     .then(data => {
         console.log(data);
-        resultsDiv.innerHTML = "Archivo Procesado Exitosamente";
+
+        resultsDiv.setAttribute("class","");
+        resultsDiv.innerHTML = "";
+        swal({
+              title: "¡Uploaded!",
+              text: "File Uploaded Successfully",
+              icon: "success",
+              button: "Success",
+        });
     })
     .catch(error => {
-        console.error('Error:', error);
-        resultsDiv.innerHTML = 'Error al procesar el archivo';
+        console.log(error);
+        swal({
+            title: "¡Error!",
+            text: "Error to Process file. try again",
+            icon: "error",
+            button: "Success",
+        });
     });
 
 }
+
+(()=>{
+    const hamBurger = document.querySelector(".toggle-btn");
+
+    hamBurger.addEventListener("click", function () {
+      document.querySelector("#sidebar").classList.toggle("expand");
+    });
+})();

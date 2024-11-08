@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -19,4 +20,20 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.saveAll(questionEntities);
     }
 
+    @Override
+    public Optional<String> sendMessage(String message) {
+        return questionRepository.findResponseByQuestion(message);
+    }
+    @Override
+    public List<QuestionEntity> findSimilarQuestionWithResponse(String question) {
+        return questionRepository.findSimilarQuestionsWithResponses(question);
+    }
+    @Override
+    public List<QuestionEntity> findSimilarQuestion(String question) {
+        return questionRepository.findSimilarQuestion(question);
+    }
+    @Override
+    public List<QuestionEntity> findAllQuestion() {
+        return (List<QuestionEntity>) questionRepository.findAll();
+    }
 }

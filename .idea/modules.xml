@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/procecingDataSpting.iml" filepath="$PROJECT_DIR$/.idea/procecingDataSpting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/chatBotUcc.iml" filepath="$PROJECT_DIR$/.idea/chatBotUcc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/procecingDataSpting/procecingDataSpting.iml" filepath="$PROJECT_DIR$/procecingDataSpting/procecingDataSpting.iml" />
     </modules>
   </component>
 </project>

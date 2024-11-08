@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/application")
@@ -98,16 +99,21 @@ public class ChatBotController {
         List<Map<String,String>> data =  readFileService.readFile(file);
 
         List<QuestionEntity> conversacion = data.stream()
-                .map(pregunta->
-                    QuestionEntity.builder()
+                .map(question->{
+                    question.get("Pregunta").toLowerCase();
+                    question.get("Respuesta").toLowerCase();
+
+                    QuestionEntity questionEntity = QuestionEntity.builder()
                             .dateTimeQuestion(LocalDateTime.now().toString())
-                            .question(pregunta.get("Pregunta"))
+                            .question(question.get("Pregunta").toLowerCase())
                             .responseEntity(com.procecingData.procecingDataSpting.entity.ResponseEntity.builder()
                                     .dateTimeResponse(LocalDateTime.now().toString())
-                                    .response(pregunta.get("Respuesta"))
+                                    .response(question.get("Respuesta").toLowerCase())
                                     .build())
-                            .build()
-                ).toList();
+                            .build();
+
+                    return questionEntity;
+                }).toList();
 
         questionService.saveAllQuestion(conversacion);
 
@@ -116,11 +122,38 @@ public class ChatBotController {
 
     @PostMapping("/message")
     public ResponseEntity<?> sendMessage(@RequestParam("message") String message){
-        //TODO... Consulta y devolver respuesta asociada para pintarla en dicho Dom
 
-        System.out.println(message);
+        Map<String,String> mapaQuestion = new HashMap<>();
+        List<QuestionEntity> questionEntities = questionService.findSimilarQuestionWithResponse(message);
 
-        return new ResponseEntity<>(Map.of("Value",message),HttpStatus.OK);
+        questionEntities.stream().forEach(questionEntity -> {
+            mapaQuestion.put(questionEntity.getQuestion(),questionEntity.getResponseEntity().getResponse());
+        });
+
+        if(!mapaQuestion.isEmpty()){
+            return new ResponseEntity<>(mapaQuestion,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Map.of("Value","No lo se"),HttpStatus.OK);
+    }
+
+    @GetMapping("/questions")
+    public ResponseEntity<?> findAllQuestions(){
+        List<QuestionEntity> questionEntities =  questionService.findAllQuestion();
+
+        if(!questionEntities.isEmpty()){
+            Map<String,String> questions  = new HashMap<>();
+
+            questionEntities.stream()
+                    .forEach(question->{
+                        questions.put(question.getId().toString(),question.getQuestion());
+                    });
+
+            return new ResponseEntity<>(questions,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Map.of("No Found","Question Not Found"),HttpStatus.OK);
+
     }
 
 }

@@ -52,9 +52,17 @@ public class ProcecingDataSptingApplication {
 					.roles(Set.of(roleAdmin))
 					.build();
 
+			PersonEntity personUser = PersonEntity.builder()
+					.name("Sandy")
+					.username("sandy@gmail.com")
+					.password("$2a$10$7vJfgIfgMvUFuTnrwA25henbegSEUbhOcLancbEHEkYtcWMeHbmKu")
+					.roles(Set.of(roleUser))
+					.build();
+
 			roleService.saveAllRole(Set.of(roleAdmin,roleUser));
 			personService.saveUser(personAdmin);
 			personService.saveUser(personAdmin2);
+			personService.saveUser(personUser);
 
 		};
 	}

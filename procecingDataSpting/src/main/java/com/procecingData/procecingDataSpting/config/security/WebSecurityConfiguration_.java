@@ -31,6 +31,7 @@ public class WebSecurityConfiguration_ {
                     request.requestMatchers(HttpMethod.GET,"/application/home_admin").hasRole("ADMIN");
                     request.requestMatchers(HttpMethod.POST,"/application/send").hasRole("ADMIN");
                     request.requestMatchers(HttpMethod.POST,"/application/message").hasRole("USER");
+                    request.requestMatchers(HttpMethod.POST,"/application/questions").hasRole("USER");
 
                     request.anyRequest().authenticated();
 
